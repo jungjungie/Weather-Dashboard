@@ -12,7 +12,6 @@ function displayCurrentCity() {
     }
 
     var city = citiesArr[0];
-    city = "Philadelphia";
     // console.log(city);
 
     $.ajax({
@@ -38,3 +37,28 @@ function displayCurrentCity() {
     })
 }
 displayCurrentCity();
+
+// Pulls up data of city searched
+$("#srchBtn").on("click", function() {
+
+    if ($("#cityInput").val() == "") {
+        return;
+    }
+
+    // Saves searched cities to localStorage & keeps search history to 8 items
+    citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+    citiesArr.unshift($("#cityInput").val());
+    if (citiesArr.length >= 9) {
+        citiesArr.pop();
+    }
+    localStorage.setItem("cities", JSON.stringify(citiesArr));    
+
+    // Adds searched cities to search history
+    citiesArr = JSON.parse(localStorage.getItem("cities"));
+    
+    viewSrchHistory();
+
+    // Clear current data & display new data
+    $("#currentData").empty();
+    displayCurrentCity();
+})
