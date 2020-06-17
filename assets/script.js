@@ -32,8 +32,8 @@ function displayCurrentCity() {
             var temp = (weatherData.current.temp - 273.15) * 1.80 + 32;
             var humidity = weatherData.current.humidity;
             var windSpd = weatherData.current.wind_speed;
-            var uvIndex = weatherData.current.uvi;
-            console.log(`temp: ${temp}, humidity: ${humidity}, wind: ${windSpd}, uvIndex: ${uvIndex}`);
+            var uvIndexNum = weatherData.current.uvi;
+            // console.log(`temp: ${temp}, humidity: ${humidity}, wind: ${windSpd}, uvIndex: ${uvIndexNum}`);
 
             function currentCityData() {
                 var today = moment().format('LL');
@@ -49,17 +49,16 @@ function displayCurrentCity() {
                 humidity = $("<p>").text("Humidity: " + humidity + "%");
                 windSpd = $("<p>").text("Wind Speed: " + windSpd + " MPH");
                 uvIndexTxt = $("<p>").text("UV Index: ");
-                uvIndex = $("<span>").text(uvIndex);
+                uvIndex = $("<span>").text(uvIndexNum);
 
                 // UV Index color codes
-                if (uvIndex >= 0 && uvIndex < 3) {
+                if (uvIndexNum >= 0 && uvIndexNum < 3) {
                     uvIndex.attr("class", "uv uvLow");
-                } else if (uvIndex >= 3 && uvIndex < 6) {
+                } else if (uvIndexNum >= 3 && uvIndexNum < 6) {
                     uvIndex.attr("class", "uv uvModerate");
-                } else if (uvIndex >= 6 && uvIndex < 8) {
+                } else if (uvIndexNum >= 6 && uvIndexNum < 8) {
                     uvIndex.attr("class", "uv uvHigh");
                 } else {
-                    // uvIndex.css("background", "red");
                     uvIndex.attr("class", "uv uvVeryHigh");
                 }
 
