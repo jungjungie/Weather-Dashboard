@@ -133,3 +133,14 @@ $("#srchBtn").on("click", function() {
     $("#currentData").empty();
     displayCurrentCity();
 })
+
+function viewSrchHistory() {
+    $("#srchHistory").empty();
+    
+    citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+
+    for (var i=0; i < citiesArr.length; i++) {
+        $("#srchHistory").append($("<li>").text(citiesArr[i]).attr("class", "list-group-item"));
+    }
+}
+viewSrchHistory();
