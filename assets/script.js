@@ -33,6 +33,42 @@ function displayCurrentCity() {
             var windSpd = weatherData.current.wind_speed;
             var uvIndex = weatherData.current.uvi;
             console.log(`temp: ${temp}, humidity: ${humidity}, wind: ${windSpd}, uvIndex: ${uvIndex}`);
+
+            function currentCityData() {
+                var today = moment().format('LL');
+                var icon = weatherData.current.weather[0].icon;
+                icon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
+
+                // Display city & today's date
+                $("#currentData").append($("<h3>").html(city + " (" + today + ")"));  
+                $("#currentData").append(icon);
+
+                // Display city's weather data
+                temp = $("<p>").html("Temperature: " + temp.toFixed(2) + " &deg;" + "F")
+                humidity = $("<p>").text("Humidity: " + humidity + "%");
+                windSpd = $("<p>").text("Wind Speed: " + windSpd + " MPH");
+                uvIndexTxt = $("<p>").text("UV Index: ");
+                uvIndex = $("<span>").text(uvIndex);
+
+                // UV Index color codes
+                if (uvIndex >= 0 && uvIndex < 3) {
+                    uvIndex.attr("class", "uv uvLow");
+                } else if (uvIndex >= 3 && uvIndex < 6) {
+                    uvIndex.attr("class", "uv uvModerate");
+                } else if (uvIndex >= 6 && uvIndex < 8) {
+                    uvIndex.attr("class", "uv uvHigh");
+                } else {
+                    // uvIndex.css("background", "red");
+                    uvIndex.attr("class", "uv uvVeryHigh");
+                }
+
+                $("#currentData").append(temp);
+                $("#currentData").append(humidity);
+                $("#currentData").append(windSpd);
+                $("#currentData").append(uvIndexTxt);
+                uvIndexTxt.append(uvIndex);
+            }
+            currentCityData();
         })    
     })
 }
