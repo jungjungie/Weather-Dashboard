@@ -1,4 +1,5 @@
 var citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+var clickedCity = "";
 
 // Hide current & 5-day forecast if no cities searched
 if(citiesArr[0] == undefined) {
@@ -144,3 +145,22 @@ function viewSrchHistory() {
     }
 }
 viewSrchHistory();
+
+// Pulls up data of city clicked in search history
+$(document).on("click", "li", function() {
+    citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+    citiesArr.unshift($(this).text());
+    if (citiesArr.length >= 9) {
+        citiesArr.pop();
+    }
+    localStorage.setItem("cities", JSON.stringify(citiesArr));    
+
+    // Adds searched cities to search history
+    citiesArr = JSON.parse(localStorage.getItem("cities"));
+
+    viewSrchHistory();
+
+    // Clear current data & display new data
+    $("#currentData").empty();
+    displayCurrentCity();
+})
