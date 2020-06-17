@@ -78,3 +78,9 @@
 .uvVeryHigh {
     background: #bf3737;
 }
+
+@media (max-width: 700px) {
+    #history {
+        text-align: center;
+    }
+}
