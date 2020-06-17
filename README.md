@@ -26,7 +26,7 @@ This weather application allows users to look up the weather in multiple cities.
 
 ***
 ## Demo:
-![gif demo of app]()
+![gif demo of app](images/weather.gif)
 
 
 
