@@ -7,6 +7,10 @@ if(citiesArr[0] == undefined) {
 } 
 
 function displayCurrentCity() {
+    if(citiesArr[0] == undefined) {
+        return;
+    } 
+
     // Show current & 5-day forecast if there is a searched city
     if(citiesArr[0] !== undefined) {
         $("#datawrap").css("display", "block");
