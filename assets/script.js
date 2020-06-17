@@ -68,7 +68,42 @@ function displayCurrentCity() {
                 $("#currentData").append(uvIndexTxt);
                 uvIndexTxt.append(uvIndex);
             }
+
+            function fiveDayForecast() {
+                var fiveDayArr = weatherData.daily;
+                // Clear current 5-day dashboard
+                $(".card-group").empty();
+
+                for (var i=1; i < 6; i++) {
+                    // console.log(fiveDayArr[i]);
+
+                    // Dates
+                    var unixtime = fiveDayArr[i].dt;
+                    var fiveDays = moment.unix(unixtime).format("MM/DD/YYYY");
+                    // var fiveDays = moment().add(i, 'days').format('l');  
+                    fiveDays = $("<h6>").text(fiveDays);
+
+                    // 5-Day Icons
+                    var iconForecast = fiveDayArr[i].weather[0].icon;
+                    iconForecast = $("<img>").attr({"src": "http://openweathermap.org/img/wn/" + iconForecast + "@2x.png", "width": "70px"});
+                    var iconDiv = $("<div>").append(iconForecast);
+
+                    // 5-Day Temps
+                    var tempForecast = (fiveDayArr[i].temp.day - 273.15) * 1.80 + 32;
+                    tempForecast = $("<p>").html("Temp: " + tempForecast.toFixed(2) + " &deg;" + "F");
+
+                    // 5-Day Humidity
+                    var humForecast = (fiveDayArr[i].humidity);
+                    humForecast = $("<p>").text("Humidity: " + humForecast + "%");
+
+                    // Appending data & elements
+                    var card = $("<div>").attr("class", "card");
+                    $(".card-group").append(card);
+                    card.append(fiveDays, iconDiv, tempForecast, humForecast);
+                }
+            }
             currentCityData();
+            fiveDayForecast();
         })    
     })
 }
