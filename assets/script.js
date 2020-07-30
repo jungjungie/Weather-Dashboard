@@ -2,17 +2,17 @@ var citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
 var clickedCity = "";
 
 // Hide current & 5-day forecast if no cities searched
-if(citiesArr[0] == undefined) {
+if (citiesArr[0] == undefined) {
     $("#datawrap").css("display", "none");
-} 
+}
 
 function displayCurrentCity() {
-    if(citiesArr[0] == undefined) {
+    if (citiesArr[0] == undefined) {
         return;
-    } 
+    }
 
     // Show current & 5-day forecast if there is a searched city
-    if(citiesArr[0] !== undefined) {
+    if (citiesArr[0] !== undefined) {
         $("#datawrap").css("display", "block");
     }
 
@@ -22,15 +22,15 @@ function displayCurrentCity() {
     $.ajax({
         url: "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&cnt=5&appid=16499f261adfaf628932819fce40e659",
         method: "GET"
-    }).then(function(cityLatLong) {
-        
+    }).then(function (cityLatLong) {
+
         var lat = cityLatLong.city.coord.lat;
         var lon = cityLatLong.city.coord.lon;
 
         $.ajax({
             url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly&appid=16499f261adfaf628932819fce40e659",
             method: "GET"
-        }).then(function(weatherData) {
+        }).then(function (weatherData) {
             // console.log(weatherData);
 
             var temp = (weatherData.current.temp - 273.15) * 1.80 + 32;
@@ -45,7 +45,7 @@ function displayCurrentCity() {
                 icon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
 
                 // Display city & today's date
-                $("#currentData").append($("<h3>").html(city + " (" + today + ")"));  
+                $("#currentData").append($("<h3>").html(city + " (" + today + ")"));
                 $("#currentData").append(icon);
 
                 // Display city's weather data
@@ -78,7 +78,7 @@ function displayCurrentCity() {
                 // Clear current 5-day dashboard
                 $(".card-group").empty();
 
-                for (var i=1; i < 6; i++) {
+                for (var i = 1; i < 6; i++) {
                     // console.log(fiveDayArr[i]);
 
                     // Dates
@@ -89,7 +89,7 @@ function displayCurrentCity() {
 
                     // 5-Day Icons
                     var iconForecast = fiveDayArr[i].weather[0].icon;
-                    iconForecast = $("<img>").attr({"src": "http://openweathermap.org/img/wn/" + iconForecast + "@2x.png", "width": "70px"});
+                    iconForecast = $("<img>").attr({ "src": "http://openweathermap.org/img/wn/" + iconForecast + "@2x.png", "width": "70px" });
                     var iconDiv = $("<div>").append(iconForecast);
 
                     // 5-Day Temps
@@ -108,29 +108,45 @@ function displayCurrentCity() {
             }
             currentCityData();
             fiveDayForecast();
-        })    
+        })
     })
 }
 displayCurrentCity();
 
 // Pulls up data of city searched
-$("#srchBtn").on("click", function() {
+$("#srchBtn").on("click", function () {
 
     if ($("#cityInput").val() == "") {
         return;
     }
 
-    // Saves searched cities to localStorage & keeps search history to 8 items
+    // Grabs searched cities from localStorage
     citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+
+    // If citiesArr already includes the searched city, delete it from the array
+    if (citiesArr.includes($("#cityInput").val())) {
+        var cityIndx = 0;
+
+        // Pulls the index of the searched city from citiesArr
+        for (let i=0; i < citiesArr.length; i++) {
+            if (citiesArr[i] === $("#cityInput").val()) {
+                cityIndx = i;
+            }
+        }
+
+        citiesArr.splice(cityIndx, 1);
+    }
+    
+    // Saves searched cities to localStorage & keeps search history to 8 items
     citiesArr.unshift($("#cityInput").val());
     if (citiesArr.length >= 9) {
         citiesArr.pop();
     }
-    localStorage.setItem("cities", JSON.stringify(citiesArr));    
+    localStorage.setItem("cities", JSON.stringify(citiesArr));
 
     // Adds searched cities to search history
     citiesArr = JSON.parse(localStorage.getItem("cities"));
-    
+
     viewSrchHistory();
 
     // Clear current data & display new data
@@ -140,23 +156,23 @@ $("#srchBtn").on("click", function() {
 
 function viewSrchHistory() {
     $("#srchHistory").empty();
-    
+
     citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
 
-    for (var i=0; i < citiesArr.length; i++) {
+    for (var i = 0; i < citiesArr.length; i++) {
         $("#srchHistory").append($("<li>").text(citiesArr[i]).attr("class", "list-group-item"));
     }
 }
 viewSrchHistory();
 
 // Pulls up data of city clicked in search history
-$(document).on("click", "li", function() {
+$(document).on("click", "li", function () {
     citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
     citiesArr.unshift($(this).text());
     if (citiesArr.length >= 9) {
         citiesArr.pop();
     }
-    localStorage.setItem("cities", JSON.stringify(citiesArr));    
+    localStorage.setItem("cities", JSON.stringify(citiesArr));
 
     // Adds searched cities to search history
     citiesArr = JSON.parse(localStorage.getItem("cities"));

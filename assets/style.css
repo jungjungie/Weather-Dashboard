@@ -28,6 +28,7 @@
     border: 1px solid #ccc;
     background: white;
     margin: 0px;
+    margin-bottom: 1px;
 }
 
 #cityInput:focus, #srchBtn:focus {
