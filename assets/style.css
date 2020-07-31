@@ -1,4 +1,9 @@
 /* Nav */
+
+navbar {
+    width: 100%;
+}
+
 #title {
     font-size: 2em;
 }
@@ -8,6 +13,14 @@
     padding: 20px;
     padding-left: 30px;
     background: #C4E0FC;
+    height: 100vh;
+}
+
+@media (max-width: 768px) {
+    #history {
+        height: 100%;
+        text-align: center;
+    }  
 }
 
 #searchtitle {
@@ -36,6 +49,14 @@
 }
 
 /* Current & 5-Day Forecast Data */
+h2 {
+    font-size: 3.8em;
+}
+
+h4 {
+    font-size: 1.8em;
+}
+
 #datawrap {
     background: white;
     padding: 0;
@@ -78,10 +99,4 @@
 
 .uvVeryHigh {
     background: #bf3737;
-}
-
-@media (max-width: 700px) {
-    #history {
-        text-align: center;
-    }
 }

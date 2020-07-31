@@ -40,16 +40,20 @@ function displayCurrentCity() {
             // console.log(`temp: ${temp}, humidity: ${humidity}, wind: ${windSpd}, uvIndex: ${uvIndexNum}`);
 
             function currentCityData() {
-                var today = moment().format('LL');
+                var today = moment().format('dddd, LL');
                 var icon = weatherData.current.weather[0].icon;
                 icon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
 
+
+                temp = $("<h2>").html(temp.toFixed(0) + " &deg;" + "F")
+
                 // Display city & today's date
-                $("#currentData").append($("<h3>").html(city + " (" + today + ")"));
+                $("#currentData").append(temp);
+                $("#currentData").append($("<h3>").html(city));
+                $("#currentData").append($("<p>").html(today));
                 $("#currentData").append(icon);
 
                 // Display city's weather data
-                temp = $("<p>").html("Temperature: " + temp.toFixed(2) + " &deg;" + "F")
                 humidity = $("<p>").text("Humidity: " + humidity + "%");
                 windSpd = $("<p>").text("Wind Speed: " + windSpd + " MPH");
                 uvIndexTxt = $("<p>").text("UV Index: ");
@@ -66,7 +70,6 @@ function displayCurrentCity() {
                     uvIndex.attr("class", "uv uvVeryHigh");
                 }
 
-                $("#currentData").append(temp);
                 $("#currentData").append(humidity);
                 $("#currentData").append(windSpd);
                 $("#currentData").append(uvIndexTxt);
@@ -83,8 +86,7 @@ function displayCurrentCity() {
 
                     // Dates
                     var unixtime = fiveDayArr[i].dt;
-                    var fiveDays = moment.unix(unixtime).format("MM/DD/YYYY");
-                    // var fiveDays = moment().add(i, 'days').format('l');  
+                    var fiveDays = moment.unix(unixtime).format("ddd MM/DD"); 
                     fiveDays = $("<h6>").text(fiveDays);
 
                     // 5-Day Icons
@@ -94,7 +96,7 @@ function displayCurrentCity() {
 
                     // 5-Day Temps
                     var tempForecast = (fiveDayArr[i].temp.day - 273.15) * 1.80 + 32;
-                    tempForecast = $("<p>").html("Temp: " + tempForecast.toFixed(2) + " &deg;" + "F");
+                    tempForecast = $("<h4>").html(tempForecast.toFixed(0) + " &deg;" + "F");
 
                     // 5-Day Humidity
                     var humForecast = (fiveDayArr[i].humidity);
@@ -122,6 +124,10 @@ $("#srchBtn").on("click", function () {
 
     // Grabs searched cities from localStorage
     citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+
+    // console.log($("#cityInput").val()[0].toUpperCase());
+    // $("#cityInput").val() = $("#cityInput").val()[0].toUpperCase();
+    // console.log($("#cityInput").val());
 
     // If citiesArr already includes the searched city, delete it from the array
     if (citiesArr.includes($("#cityInput").val())) {
@@ -152,6 +158,9 @@ $("#srchBtn").on("click", function () {
     // Clear current data & display new data
     $("#currentData").empty();
     displayCurrentCity();
+
+    // Clears search bar
+    // $("#cityInput").val() = "";
 })
 
 function viewSrchHistory() {
