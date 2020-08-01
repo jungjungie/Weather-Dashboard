@@ -11,7 +11,7 @@ navbar {
 #history {
     padding: 20px;
     padding-left: 30px;
-    background: #9bd5f7;
+    background: #f0f0f0;
     height: 100vh;
 }
 
@@ -41,7 +41,6 @@ navbar {
     background: white;
     margin: 0px;
     margin-bottom: 1px;
-
 }
 
 #cityInput:focus, #srchBtn:focus {
@@ -58,9 +57,12 @@ h4 {
 }
 
 #datawrap {
-    background: white;
+    background: #f0f0f0;
     padding: 0;
-    /* color: white; */
+}
+
+#currentData {
+    background: white;
 }
 
 #currentData, #fiveDayWrap {
@@ -73,10 +75,8 @@ h4 {
 .card {
     border: 1px solid #ececec;
     border-radius: 5px;
-    /* background: #fafafa; */
     text-align: center;
     padding: 10px 0px;
-    box-shadow: 0px 1px 8px #ececec;
 }
 
 .uv {
