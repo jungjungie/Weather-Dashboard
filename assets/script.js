@@ -86,7 +86,7 @@ function displayCurrentCity() {
 
                     // Dates
                     var unixtime = fiveDayArr[i].dt;
-                    var fiveDays = moment.unix(unixtime).format("ddd MM/DD"); 
+                    var fiveDays = moment.unix(unixtime).format("ddd MM/DD");
                     fiveDays = $("<h6>").text(fiveDays);
 
                     // 5-Day Icons
@@ -115,36 +115,47 @@ function displayCurrentCity() {
 }
 displayCurrentCity();
 
+// Capitalizes the first letter of every word
+function titleCase(string) {
+    var sentence = string.toLowerCase().split(" ");
+
+    var newSentence = sentence.map(word => {
+        if (word.length < 3) {
+            return word.toUpperCase();
+        } else {
+            return word[0].toUpperCase() + word.slice(1);
+        }
+    })
+    
+    console.log(newSentence);
+
+    return newSentence.join(" ");
+}
+
 // Pulls up data of city searched
 $("#srchBtn").on("click", function () {
+    let cityInput = titleCase($("#cityInput").val());
 
-    if ($("#cityInput").val() == "") {
+    if (cityInput == "") {
         return;
     }
 
     // Grabs searched cities from localStorage
     citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
 
-    // console.log($("#cityInput").val()[0].toUpperCase());
-    // $("#cityInput").val() = $("#cityInput").val()[0].toUpperCase();
-    // console.log($("#cityInput").val());
-
     // If citiesArr already includes the searched city, delete it from the array
-    if (citiesArr.includes($("#cityInput").val())) {
-        var cityIndx = 0;
+    if (citiesArr.includes(cityInput)) {
 
-        // Pulls the index of the searched city from citiesArr
-        for (let i=0; i < citiesArr.length; i++) {
-            if (citiesArr[i] === $("#cityInput").val()) {
+        for (let i = 0; i < citiesArr.length; i++) {
+            if (citiesArr[i] === cityInput) {
                 cityIndx = i;
+                citiesArr.splice(cityIndx, 1);
             }
         }
-
-        citiesArr.splice(cityIndx, 1);
     }
-    
+
     // Saves searched cities to localStorage & keeps search history to 8 items
-    citiesArr.unshift($("#cityInput").val());
+    citiesArr.unshift(cityInput);
     if (citiesArr.length >= 9) {
         citiesArr.pop();
     }
@@ -160,7 +171,7 @@ $("#srchBtn").on("click", function () {
     displayCurrentCity();
 
     // Clears search bar
-    // $("#cityInput").val() = "";
+    $("#cityInput").val("");
 })
 
 function viewSrchHistory() {
