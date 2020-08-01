@@ -115,7 +115,7 @@ function displayCurrentCity() {
 }
 displayCurrentCity();
 
-// Capitalizes the first letter of every word
+// Capitalizes the first letter of every word in city name
 function titleCase(string) {
     var sentence = string.toLowerCase().split(" ");
 
@@ -126,9 +126,8 @@ function titleCase(string) {
             return word[0].toUpperCase() + word.slice(1);
         }
     })
-    
-    console.log(newSentence);
 
+    // console.log(newSentence);
     return newSentence.join(" ");
 }
 
@@ -148,8 +147,7 @@ $("#srchBtn").on("click", function () {
 
         for (let i = 0; i < citiesArr.length; i++) {
             if (citiesArr[i] === cityInput) {
-                cityIndx = i;
-                citiesArr.splice(cityIndx, 1);
+                citiesArr.splice(i, 1);
             }
         }
     }
@@ -188,6 +186,17 @@ viewSrchHistory();
 // Pulls up data of city clicked in search history
 $(document).on("click", "li", function () {
     citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+
+    // If citiesArr already includes the searched city, delete it from the array
+    if (citiesArr.includes($(this).text())) {
+
+        for (let i = 0; i < citiesArr.length; i++) {
+            if (citiesArr[i] === $(this).text()) {
+                citiesArr.splice(i, 1);
+            }
+        }
+    }
+
     citiesArr.unshift($(this).text());
     if (citiesArr.length >= 9) {
         citiesArr.pop();
